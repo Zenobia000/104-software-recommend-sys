@@ -14,4 +14,4 @@ https://www.104.com.tw/job/70nve?jobsource=jolist_d_date
 
 同一間公司 > 美商安佩科技股份有限公司台灣分公司
 
-> 剔除極端值後再畫一張圖
+剔除極端值後再畫一張圖
