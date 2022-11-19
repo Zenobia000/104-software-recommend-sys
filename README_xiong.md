@@ -12,6 +12,7 @@ clean_job7_v1.ipynb  //存檔job7_v1.json
 ？5類分的效果？會不會太多
  
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
 2022/11/17 xiong
 clean_job7_v2.ipynb  //存檔job7_v2.json
 
@@ -21,24 +22,28 @@ clean_job7_v2.ipynb  //存檔job7_v2.json
 * 導出一版csv是drop面議版
 
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
 2022/11/17 xiong
 clean_job7_v3.ipynb
 
 * 導出一版工作待遇（薪資）和擅長工具（程式）的csv drop面議版
 
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
 2022/11/17 xiong
 clean_job7_v4.ipynb
 
 * 導出一版縣市/地區和擅長工具（程式）的csv drop面議版
 
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
 2022/11/17 xiong
 clean_job7_v5.ipynb
 
 * 導出一版分類和工作待遇（薪資）的csv drop面議版
 
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－
+
 2022/11/17 xiong
 clean_job7_v6.ipynb //存檔job7_v3.json
 
