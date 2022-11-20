@@ -377,6 +377,14 @@ for i in range(0, 1):
     
     for j in range(len(district[i])):
 #     for j in range(0, 1):
+#臺北 0:1 熊大
+#新北 1:2
+#桃園 4:5
+#新竹 5:6
+#台中 7:8
+#台南 13:14
+#高雄 15:16
+
         district_id = j+1
         district_str = "0"+str(district_id) if district_id<10 else str(district_id)
         
