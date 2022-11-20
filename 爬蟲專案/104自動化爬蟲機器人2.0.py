@@ -170,7 +170,7 @@ def craw(i): #by noah
     b = int(batterys[i])
     try:
         # 等待篩選元素出現
-        IDN = WebDriverWait(driver, 10).until(
+        IDN = WebDriverWait(driver, 5).until(
             EC.presence_of_element_located(
                 (By.CSS_SELECTOR,
                 'div.job-header__btn.mb-3 > div > form > input[type=hidden]:nth-child(1)')
@@ -372,12 +372,12 @@ def craw(i): #by noah
 #for i in range(len(city)):
 for i in range(0, 1):
 #臺北 0:1 熊大
-#新北 1:2
-#桃園 4:5
-#新竹 5:6
-#台中 7:8
-#台南 13:14
-#高雄 15:16
+#新北 1:2 Noah
+#桃園 4:5 Noah 
+#新竹 5:6 Kevin
+#台中 7:8 Noah
+#台南 13:14 Sunny
+#高雄 15:16 Sunny
     city_id = i+1
     city_str = "0"+str(city_id) if city_id<10 else str(city_id)
     
@@ -401,7 +401,7 @@ for i in range(0, 1):
                     driver.get(url)
                     sleep(0.5)
                     try: 
-                        check_if_there_is_link = WebDriverWait(driver, 10).until(
+                        check_if_there_is_link = WebDriverWait(driver, 1).until(
                             EC.presence_of_element_located(
                                 (By.CSS_SELECTOR, 'li.job-mode__jobname > a')))
                     except TimeoutException: #no links, it's last page
