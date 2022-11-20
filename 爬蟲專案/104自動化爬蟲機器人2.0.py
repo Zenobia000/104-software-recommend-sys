@@ -371,12 +371,6 @@ def craw(i): #by noah
 #main
 #for i in range(len(city)):
 for i in range(0, 1):
-   
-    city_id = i+1
-    city_str = "0"+str(city_id) if city_id<10 else str(city_id)
-    
-    for j in range(len(district[i])):
-#     for j in range(0, 1):
 #臺北 0:1 熊大
 #新北 1:2
 #桃園 4:5
@@ -384,7 +378,11 @@ for i in range(0, 1):
 #台中 7:8
 #台南 13:14
 #高雄 15:16
-
+    city_id = i+1
+    city_str = "0"+str(city_id) if city_id<10 else str(city_id)
+    
+    for j in range(len(district[i])):
+#     for j in range(0, 1):
         district_id = j+1
         district_str = "0"+str(district_id) if district_id<10 else str(district_id)
         
