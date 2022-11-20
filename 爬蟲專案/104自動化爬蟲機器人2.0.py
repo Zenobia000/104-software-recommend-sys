@@ -375,8 +375,8 @@ for i in range(0, 1):
     city_id = i+1
     city_str = "0"+str(city_id) if city_id<10 else str(city_id)
     
-    #for j in range(len(district[i])):
-    for j in range(0, 1):
+    for j in range(len(district[i])):
+#     for j in range(0, 1):
         district_id = j+1
         district_str = "0"+str(district_id) if district_id<10 else str(district_id)
         
