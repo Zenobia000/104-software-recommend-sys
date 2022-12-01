@@ -47,9 +47,7 @@ start = input('起始頁數:')
 end = input('結束頁數:')
 print('=======================================')
 # 你要放哪裡
-folderPath_w = 'C:/Selenium/dcard/Dcard/'
-#爬幾個連結的檔名 (應該可以改成一個input輸入)
-# filename_innerText = 'page_'+str(large)+'_'+str(small)
+folderPath_w = 'C:/Selenium/dcard/'
 filename_innerText = 'Dcard_V1'
 # --------------------------------------------------------------------------
 
@@ -58,8 +56,12 @@ def end_craw():
     title = driver.find_element(
         By.CSS_SELECTOR, 'div > h1').get_attribute('innerText')
     # 內文
-    txt = driver.find_element(By.CSS_SELECTOR, 'article > div.atm_lo_c0ivcw.atm_le_1ad2xrm.cgmw135 > div > div').get_attribute(
-        'innerText').replace('\n', '')
+    try:
+        txt = driver.find_element(By.CSS_SELECTOR, 'article > div.atm_lo_c0ivcw.atm_le_1ad2xrm.cgmw135 > div > div').get_attribute(
+            'innerText').replace('\n', '')
+    except:
+        txt= driver.find_element(By.CSS_SELECTOR,'#__next > div > div.f1og407v > div > div > div > div > article > div.atm_lo_c0ivcw.atm_le_1ad2xrm.cgmw135 > div > a > div > div.m1vig5f1 > div >div').get_attribute('innerText').replace('\n', '')
+    
     date = driver.find_element(
         By.CSS_SELECTOR, ' div.atm_c8_3rwk2t.atm_9s_1txwivl.atm_h_1h6ojuz.atm_h3_1fwxnve.i1ym7go5 > div:nth-child(2)').get_attribute('innerText')
 
@@ -198,21 +200,24 @@ if int(start) <= 0:
     driver.quit()
 else:
     for num in range(int(start)-1, int(end)):
-        driver.get(all_links[num])
-        print('目前在第'+str(num)+'頁')
-        print(all_links[num])
-        sleep(3)
-        end_craw()
-        scroll_D()
-        btntest()
-        f_btntest()
-        finally_scroll()
-        craw_1()
-        for commentt in tmpcomment:
-            commentt.replace('', 'None')
-            results[results_num]['內文留言'] = results[results_num]['內文留言']+commentt
-        tmpcomment = set()
-        results_num += 1
+        try:
+            driver.get(all_links[num])
+            print('目前在第'+str(num)+'頁')
+            print(all_links[num])
+            sleep(3)
+            end_craw()
+            scroll_D()
+            btntest()
+            f_btntest()
+            finally_scroll()
+            craw_1()
+            for commentt in tmpcomment:
+                commentt.replace('', 'None')
+                results[results_num]['內文留言'] = results[results_num]['內文留言']+commentt
+            tmpcomment = set()
+            results_num += 1
+        except:
+            continue #繼續下一個循環
 
 savejson()
 print('我存完了，我離開了')
