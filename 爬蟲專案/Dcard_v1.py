@@ -92,15 +92,19 @@ def end_craw():
 
 
 def craw_1():
-    WebDriverWait(driver, 1).until(
+    try:
+        WebDriverWait(driver, 3).until(
                             EC.presence_of_element_located(
                                 (By.CSS_SELECTOR, '#dcard-comment-anchor > div > div > div.atm_l8_1077ktj.c34rbji > section > div > div > div > div > div > div > div > div >span')))
-    comments = driver.find_elements(
-        By.CSS_SELECTOR, '#dcard-comment-anchor > div > div > div.atm_l8_1077ktj.c34rbji > section > div > div > div > div > div > div > div > div >span')
-    for comment in comments:
-        commentss = comment.get_attribute('innerText')
-        commentsss = commentss.replace('\n', '')
-        commentssss = [commentsss]
+        comments = driver.find_elements(
+            By.CSS_SELECTOR, '#dcard-comment-anchor > div > div > div.atm_l8_1077ktj.c34rbji > section > div > div > div > div > div > div > div > div >span')
+        for comment in comments:
+            commentss = comment.get_attribute('innerText')
+            commentsss = commentss.replace('\n', '')
+            commentssss = [commentsss]
+            tmpcomment.update(commentssss)
+    except:
+        commentssss='None'
         tmpcomment.update(commentssss)
 
 
