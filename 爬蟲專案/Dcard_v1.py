@@ -48,7 +48,7 @@ end = input('結束頁數:')
 print('=======================================')
 # 你要放哪裡
 folderPath_w = 'C:/Selenium/dcard/'
-filename_innerText = 'Dcard_V1'
+filename_innerText = 'Dcard_V1'+'_'+start+'_'end
 # --------------------------------------------------------------------------
 
 
