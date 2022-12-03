@@ -239,17 +239,30 @@ def craw(i): #by noah
     workhr = driver.find_element(
         By.XPATH, '//*[@id="app"]/div/div[2]/div/div[1]/div[1]/div[2]/div[9]/div[2]').get_attribute("innerText")
 
+    
     try:
-        needp = WebDriverWait(driver, 1).until(
-            EC.presence_of_element_located(
-                (By.CSS_SELECTOR, 'div.job-description-table.row > div:nth-child(10) > div.col.p-0.list-row__data > div'))
-        )
-        needp = driver.find_element(
-            By.XPATH, '//*[@id="app"]/div/div[2]/div/div[1]/div[1]/div[2]/div[12]/div[2]').get_attribute("innerText")
-
+        tag = driver.find_element(By.CSS_SELECTOR,'#app > div > div.container.jb-container.pt-4.position-relative > div > div.col.main > div.dialog.container-fluid.bg-white.rounded.job-description.mb-4.pt-6.pb-6 > div.job-description-table.row > div:nth-child(12) > div.col.p-0.mr-4.list-row__head').get_attribute('innerText')
     except:
-        needp = driver.find_element(
-            By.CSS_SELECTOR, 'div.job-description-table.row > div:nth-child(9) > div.col.p-0.list-row__data > div').get_attribute("innerText")
+        tag = driver.find_element(By.CSS_SELECTOR,'#app > div > div.container.jb-container.pt-4.position-relative > div > div.col.main > div.dialog.container-fluid.bg-white.rounded.job-description.mb-4.pt-6.pb-6 > div.job-description-table.row > div:nth-child(10) > div.col.p-0.mr-4.list-row__head').get_attribute('innerText')
+
+    if tag == '需求人數':
+        try:
+            needp = driver.find_element(
+                By.CSS_SELECTOR, '#app > div > div.container.jb-container.pt-4.position-relative > div > div.col.main > div.dialog.container-fluid.bg-white.rounded.job-description.mb-4.pt-6.pb-6 > div.job-description-table.row > div:nth-child(12) > div.col.p-0.list-row__data').get_attribute("innerText")
+        except:
+            needp = driver.find_element(
+                By.CSS_SELECTOR, '#app > div > div.container.jb-container.pt-4.position-relative > div > div.col.main > div.dialog.container-fluid.bg-white.rounded.job-description.mb-4.pt-6.pb-6 > div.job-description-table.row > div:nth-child(10) > div.col.p-0.list-row__data > div').get_attribute("innerText")
+    else:
+        if tag == '需求人數':
+            needp = driver.find_element(
+                By.CSS_SELECTOR, 'div.job-description-table.row > div:nth-child(9) > div.col.p-0.list-row__data > div').get_attribute("innerText")
+        else:
+            if tag == '需求人數':
+                needp = driver.find_element(
+                    By.CSS_SELECTOR, 'div.job-description-table.row > div:nth-child(10) > div.col.p-0.list-row__data > div').get_attribute("innerText")
+            else:
+                needp = driver.find_element(
+                    By.CSS_SELECTOR, 'div.job-description-table.row > div:nth-child(14) > div.col.p-0.list-row__data > div').get_attribute("innerText")
 
     experience = driver.find_element(
         By.XPATH, '//*[@id="app"]/div/div[2]/div/div[1]/div[2]/div[2]/div[1]/div[2]/div').get_attribute("innerText")
