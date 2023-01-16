@@ -1,11 +1,26 @@
+import os
+
 import numpy as np
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
+from sklearn import datasets, linear_model
 from sklearn.metrics import mean_squared_error, r2_score
-from sklearn import linear_model
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn import preprocessing
+from sklearn import neighbors, datasets
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.datasets import make_regression
+from sklearn.model_selection import GridSearchCV
+import xgboost as xgb
+
+import matplotlib.pyplot as plt
 
 df = pd.read_csv('./job7_4groups.csv',encoding='utf-8-sig')
 
