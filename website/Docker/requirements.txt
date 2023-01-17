@@ -1,0 +1,13 @@
+flask
+flask_moment
+pymysql
+sqlalchemy
+uwsgi
+scipy
+geocoder
+pandas
+openpyxl
+scikit-learn
+xgboost
+cryptography
+# 編譯密碼 不用的話sql會連線失敗

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh_TW">
+{% include "share/head.html" %}
+
+<body>
+    {% include "share/menu.html" %}
+
+    <section class="banner-area search-job">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="container-search">
+                    <div class="banner-content">
+                        {% include "share/search.html" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partner-area bg-color pb-20">
+        <form action="job-detail" method="post" id="formdata">
+            <input type="hidden" name="jobdt" id="jobdt" value="" />
+        </form>
+        <div class="container">
+            <div class="section-title title-sec">
+                <!-- <span>Popular Jobs</span> -->
+                <!-- <h2>Top Hiring Company</h2> -->
+                <h2>搜尋結果</h2>
+            </div>
+            <div class="div-table">
+                <table id="jobTable" class="jobtable">
+                    <thead>
+                        <tr>
+                            <th>職務名稱</th>
+                            <th>公司名稱</th>
+                            <th>工作地點<br>(縣市/地區)</th>
+                            <th>學歷</th>
+                            <th>經歷</th>
+                            <th>薪資</th>
+                            <th>預測薪資</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for datalist in joblist %}
+                        <tr>
+                            <td>{{ datalist.job_title }}</td>
+                            <td>
+                                {{ datalist.company_name }}
+                                <!-- <br>
+                                <span class="tb-star">★★★</span> -->
+                            </td>
+                            <td>{{ datalist.county }}{{ datalist.area }}</td>
+                            <td>{{ datalist.academic_requirements }}</td>
+                            <td>{{ datalist.work_experience }}</td>
+                            <td>
+                                {{ datalist.conditions }}
+                            </td>
+                            <td>
+                                ${{ datalist.predicted }}
+                            </td>
+                            <td>
+                                <button type="button" class="tb-detail" value="{{ datalist }}">詳細資訊</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="partner-area bg-color pb-70">
+        <div class="container">
+            <div class="top10-title">
+                <h3>您可能有興趣的工作</h3>
+            </div>
+            <div class="div-table">
+                <table id="jobTable2" class="jobtable">
+                    <thead>
+                        <tr>
+                            <th>職務名稱</th>
+                            <th>公司名稱</th>
+                            <th>工作地點<br>(縣市/地區)</th>
+                            <th>學歷</th>
+                            <th>經歷</th>
+                            <th>薪資</th>
+                            <th>預測薪資</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for datalist in recommend %}
+                        <tr>
+                            <td>{{ datalist.job_title }}</td>
+                            <td>
+                                {{ datalist.company_name }}
+                                <br>
+                                <span class="tb-star">★★★</span>
+                            </td>
+                            <td>{{ datalist.county }}{{ datalist.area }}</td>
+                            <td>{{ datalist.academic_requirements }}</td>
+                            <td>{{ datalist.work_experience }}</td>
+                            <td>
+                                {{ datalist.conditions }}
+                            </td>
+                            <td>
+                                ${{ datalist.predicted }}
+                            </td>
+                            <td>
+                                <button type="button" class="tb-detail" value="{{ datalist }}">詳細資訊</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    {% include "share/footer.html" %}
+
+    {% include "share/import-js.html" %}
+
+    <script src="/static/js/menu.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="/static/js/dataTables.sort.plungin.js"></script> -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#jobTable').dataTable({
+                "searching": false, // 預設為true 搜尋功能，若要開啟不用特別設定
+                "lengthChange": false, // 不顯示lengthMenu
+                "language": {
+                    "processing": "處理中...",
+                    "loadingRecords": "載入中...",
+                    // "lengthMenu": "顯示 _MENU_ 項結果",
+                    "zeroRecords": "沒有符合的結果",
+                    "info": "顯示第 _START_ 至 _END_ 項結果，共 _TOTAL_ 項",
+                    "infoEmpty": "顯示第 0 至 0 項結果，共 0 項",
+                    "infoFiltered": "(從 _MAX_ 項結果中過濾)",
+                    "infoPostFix": "",
+                    // "search": "搜尋:",
+                    "paginate": {
+                        "first": "第一頁",
+                        "previous": "上一頁",
+                        "next": "下一頁",
+                        "last": "最後一頁"
+                    },
+                    "aria": {
+                        "sortAscending": ": 升冪排列",
+                        "sortDescending": ": 降冪排列"
+                    }
+                },
+                //不排序
+                "columnDefs": [
+                    {
+                        "orderable": false,
+                        "targets": [0, 7]
+                    },
+                ],
+                "order": [],
+                "columns": [
+                    { "width": "15%" },
+                    { "width": "20%" },
+                    { "width": "15%" },
+                    null,
+                    null,
+                    { "width": "10%" },
+                    { "width": "10%" },
+                    { "width": "10%" }
+                ]
+            });
+
+            $('#jobTable2').DataTable({
+                "searching": false, // 預設為true 搜尋功能，若要開啟不用特別設定
+                "lengthChange": false, // 不顯示lengthMenu
+                "language": {
+                    "processing": "處理中...",
+                    "loadingRecords": "載入中...",
+                    // "lengthMenu": "顯示 _MENU_ 項結果",
+                    "zeroRecords": "沒有符合的結果",
+                    "info": "顯示第 _START_ 至 _END_ 項結果，共 _TOTAL_ 項",
+                    "infoEmpty": "顯示第 0 至 0 項結果，共 0 項",
+                    "infoFiltered": "(從 _MAX_ 項結果中過濾)",
+                    "infoPostFix": "",
+                    // "search": "搜尋:",
+                    "paginate": {
+                        "first": "第一頁",
+                        "previous": "上一頁",
+                        "next": "下一頁",
+                        "last": "最後一頁"
+                    },
+                    "aria": {
+                        "sortAscending": ": 升冪排列",
+                        "sortDescending": ": 降冪排列"
+                    }
+                },
+                //不排序
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": [0, 6]
+                }],
+                "order": [],
+                "columns": [
+                    { "width": "15%" },
+                    { "width": "20%" },
+                    { "width": "15%" },
+                    null,
+                    null,
+                    { "width": "10%" },
+                    { "width": "10%" },
+                    { "width": "10%" }
+                ]
+            });
+        });
+
+        $('button.tb-detail').on('click', function (e) {
+            //     $("#jobdt").val(JSON.stringify(datadt));
+            $("#jobdt").val($(this).val());
+            $("#formdata").submit();
+        });
+    </script>
+</body>
+
+</html>
