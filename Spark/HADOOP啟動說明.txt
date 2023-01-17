@@ -1,0 +1,63 @@
+
+啟動hdfs;yarn
+starthdfs; startyarn
+
+啟動 Journal Node
+ssh dtm1 hdfs --daemon start journalnode; ssh dtm3 hdfs --daemon start journalnode
+
+ssh dtm1 jps; ssh dtm3 jps
+
+
+
+啟動 Standby Name Node
+ssh dtm3 hdfs --daemon start namenode
+
+
+啟動 ZooKepper Failover Controller
+ssh dtm3 zkServer.sh start
+ssh dtm4 zkServer.sh start
+
+
+開zkfc
+$ ssh dtm1 hdfs --daemon start zkfc
+$ ssh dtm3 hdfs --daemon start zkfc
+
+
+檢視 HDFS HA 系統資訊
+hdfs haadmin -getAllServiceState
+
+啟動YARN HA
+ ssh dtm2 yarn --daemon start resourcemanager; ssh dtm4 yarn --daemon start resourcemanager
+
+檢查YARN HA
+yarn rmadmin -getAllServiceState
+
+檢查所有系統 dtest
+
+
+關HA
+YARN HA
+ ssh dtm2 yarn --daemon stop resourcemanager; ssh dtm4 yarn --daemon stop resourcemanager
+
+
+$ ssh dtm1 hdfs --daemon stop zkfc
+$ ssh dtm3 hdfs --daemon stop zkfc
+
+
+關 ZooKepper Failover Controller
+ssh dtm3 zkServer.sh stop
+ssh dtm4 zkServer.sh stop
+
+關 journalnode; 
+ssh dtm1 hdfs --daemon stop journalnode; ssh dtm3 hdfs --daemon stop journalnode
+
+關 Standby Name Node
+ssh dtm3 hdfs --daemon stop namenode
+
+關 historyserver
+ssh dtm2 mapred --daemon stop historyserver
+
+
+關 HADOOP
+dtpwroff
+
