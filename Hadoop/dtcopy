@@ -1,0 +1,31 @@
+#!/bin/bash
+
+w="dta1 dta2 dta3 dtm1 dtm2 dtm3 dtm4 dtw1 dtw2 dtw3 dtw4 dtw5 dtw6 dtw7"
+
+[ "$#" != 1 ] && echo "dtcopy version" && exit 1
+
+[ ! -d ~/vmusdt/hdp${1}/opt ] && echo "~/vmusdt/hdp${1}/opt not found" && exit 1
+
+for x in $w
+do
+   nc -w 1 -z $x 22 &>/dev/null
+   [ "$?" != "0" ] && continue
+
+   ssh $x sudo mkdir -p /opt/bin &>/dev/null
+   ssh $x sudo chmod -R 777 /opt &>/dev/null
+
+   n=$(ssh $x ls /opt)
+   for y in $n
+   do
+     ([ "$y" == "cni" ] || [ "$y" == "bin" ] || [ "$y" == "nfs" ]) && continue
+     ssh $x sudo rm -r /opt/$y
+   done
+
+   scp -r ~/vmusdt/hdp${1}/opt/* bigred@$x:/opt/ &>/dev/null
+   [ "$?" == "0" ] && echo "$x /opt/ ok"
+
+   ssh $x sudo chown -R root:root /opt
+   ssh $x sudo chmod -R 777 /opt
+
+   echo ""
+done

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+nn="dtm1"
+rs="dtm2"
+hba="dtm3"
+yba="dtm4"
+w=$(cat /etc/hosts | grep -e ' dtw[0-9]' | cut -d' ' -f2)
+
+nc -w 1 -z $nn 8020 &>/dev/null
+[ "$?" != 0 ] && echo "pls start HDFS first or fomathdfs" && exit 1
+
+for n in $nn $rs $w $hba $yba
+do
+   nc -w 1 -z $n 22 &>/dev/null
+   if [ "$?" == "0" ]; then
+      j=$(ssh -q bigred@$n sudo jps 2>/dev/null | grep -v Jps)
+      if [ "$j" != "" ]; then
+         echo -e "[$n]\n$j"
+         echo ""
+      fi
+   fi
+done

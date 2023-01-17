@@ -1,0 +1,21 @@
+#!/bin/bash
+
+m="dtm1"
+w=$(cat /etc/hosts | grep -e ' dtw[0-9]' | cut -d' ' -f2)
+
+#n=$(hostname)
+#[ ${n:0:3} != "adm" ] && echo "oops, pls return to admxxx" && exit 1
+
+for n in $w
+do
+   nc -w 1 -z $n 22 &>/dev/null
+   if [ "$?" == "0" ]; then
+      ssh bigred@$n hadoop-daemon.sh stop datanode &>/dev/null
+      [ "$?" == "0" ] && echo "$n: Data Node stoped"
+   fi
+done
+
+ssh bigred@"$m" hadoop-daemon.sh stop secondarynamenode &>/dev/null
+[ "$?" == "0" ] && echo "$m: Secondary Name Node stoped"
+ssh bigred@"$m" hadoop-daemon.sh stop namenode &>/dev/null
+[ "$?" == "0" ] && echo "$m: Name Node stoped"

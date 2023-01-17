@@ -1,0 +1,43 @@
+#!/bin/bash
+
+w="dta1 dta2 dta3 dtm1 dtm2 dtm3 dtm4 dtw1 dtw2 dtw3 dtw4 dtw5 dtw6 dtw7"
+
+[ "$#" != 1 ] && echo "dtconf version" && exit 1
+
+[ ! -d ~/vmusdt/hdp${1}/opt ] && echo "~/vmusdt/hdp${1}/opt not found" && exit 1
+
+n=$(ls ~/vmusdt/hdp${1}/opt)
+
+for x in $w
+do
+   nc -w 1 -z $x 22 &>/dev/null
+   [ "$?" != "0" ] && continue
+
+   for y in $n
+   do
+     echo "$y" | grep 'hadoop-' &>/dev/null
+     [ "$?" == "0" ] && scp ~/vmusdt/hdp${1}/conf/$y/* bigred@$x:/opt/$y/etc/hadoop/ &>/dev/null && echo "$x $y config ok" && continue
+     [ -d ~/vmusdt/hdp${1}/conf/$y ] && scp ~/vmusdt/hdp${1}/conf/$y/* bigred@$x:/opt/$y/conf/ &>/dev/null
+     [ "$?" == "0" ] && echo "$x $y config ok"
+   done
+
+   ssh $x 'sudo rm /etc/environment &>/dev/null'
+   scp -r ~/vmusdt/hdp${1}/environment bigred@$x:~/.ssh/environment &>/dev/null
+   [ "$?" == "0" ] && echo "$x environment ok"
+
+   scp -r ~/vmusdt/hdp${1}/us.bash bigred@$x:~/us.bash &>/dev/null
+   [ "$?" == "0" ] && echo "$x us.bash ok"
+
+   scp ~/vmusdt/hdp${1}/bin/*  bigred@$x:/opt/bin &>/dev/null
+   [ "$?" == "0" ] && echo "$x /opt/bin ok"
+
+   scp /etc/hosts $x:~ &>/dev/null
+   ssh $x 'sudo mv hosts /etc/hosts'
+   [ "$?" == "0" ] && echo "$x /etc/hosts ok"
+
+   ssh $x 'cat /etc/profile | grep '/home/bigred/us.bash' &>/dev/null'
+   [ "$?" != "0" ] && ssh $x 'echo source /home/bigred/us.bash | sudo tee -a /etc/profile &>/dev/null'
+   echo "$x /etc/profile ok"
+
+   echo ""
+done

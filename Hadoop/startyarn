@@ -1,0 +1,28 @@
+#!/bin/bash
+
+nn="dtm1"
+rs="dtm2"
+yn=7
+w=$(cat /etc/hosts | grep -e ' dtw[0-9]' | cut -d' ' -f2)
+
+
+#n=$(hostname)
+#[ ${n:0:3} != "adm" ] && echo "oops, pls return to admxxx" && exit 1
+
+nc -w 5 -z $nn 8020 &>/dev/null
+[ "$?" != 0 ] && echo "pls start HDFS first" && exit 1
+
+ssh bigred@"$rs" yarn-daemon.sh start resourcemanager &>/dev/null
+[ "$?" == "0" ] && echo "$rs: Resource Manager started"
+ssh bigred@"$rs" mr-jobhistory-daemon.sh start historyserver &>/dev/null
+[ "$?" == "0" ] && echo "$rs: Job History Server started"
+
+c=0
+for n in $w 
+do
+   if [ "$c" -le "$yn" ]; then
+      ssh bigred@$n yarn-daemon.sh start nodemanager &>/dev/null
+      [ "$?" == "0" ] && echo "$n: Node Manager started"
+      c=$(( c+1 ))
+   fi
+done

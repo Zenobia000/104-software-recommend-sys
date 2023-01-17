@@ -1,0 +1,38 @@
+#!/bin/bash
+echo "[HDFS]"
+nc -w 1 -z dtm1 22 &>/dev/null
+[ "$?" != 0 ] && echo 'dtm1 exited' && exit 1
+ssh -q dtm1 jps | grep 'NameNode' &>/dev/null
+[ "$?" != 0 ] && echo "HDFS exited" && exit 1
+hdfs dfsadmin -report &> /tmp/out 
+cat /tmp/out | grep 'Live datanodes'
+cat /tmp/out | grep 'Name: '
+echo ""
+
+echo "[YARN]"
+nc -w 1 -z dtm2 22 &>/dev/null
+[ "$?" != 0 ] && echo 'dtm2 exited' && exit 1
+ssh dtm2 jps | grep 'ResourceManager' &>/dev/null
+[ "$?" != 0 ] && echo "YARN exited" && exit 1
+yarn node -list -all 2>/dev/null
+
+echo""
+echo [MapReduce]
+hadoop jar /opt/hadoop-3.3.4/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.4.jar pi 2 1000 &> /tmp/out
+cat /tmp/out | grep ' Pi '
+
+echo""
+hdfs dfs -ls /tmp/spark-events &>/dev/null
+[ "$?" != "0" ] && hdfs dfs -mkdir /tmp/spark-events && hdfs dfs -chmod -R 777 /tmp
+echo [Spark]
+spark-submit --num-executors 1 --executor-memory 512m --master yarn \
+/opt/spark-3.3.1-bin-hadoop3/examples/src/main/python/pi.py 10 2>/dev/null
+
+echo ""
+echo [HBase]
+nc -w 1 -z dtm3 22 &>/dev/null
+[ "$?" != 0 ] && echo 'dtm3 exited' && exit 1
+ssh -q dtm3 jps | grep 'HMaster' &>/dev/null
+if [ "$?" == "0" ]; then
+   echo "status" | hbase shell -n 2>/dev/null | head -n 2
+fi

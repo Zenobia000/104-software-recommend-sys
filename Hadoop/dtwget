@@ -1,0 +1,29 @@
+#!/bin/bash
+
+[ "$#" != 1 ] && echo "dtwget version" && exit 1
+
+[ ! -d ~/vmusdt/hdp${1} ] && echo "~/vmusdt/hdp${1} not found" && exit 1
+[ ! -f ~/vmusdt/hdp${1}/dlist ] && echo "~/vmusdt/hdp${1}/dlist not found" && exit 1
+
+read -p "download DT packages ? (YES/NO) " ans
+if [ "$ans" == "YES" ]; then
+   # [ -d ~/vmusdt/hdp${1}/opt ] && rm -r ~/vmusdt/hdp${1}/opt &>/dev/null
+   [ ! -d ~/vmusdt/hdp${1}/opt ] && mkdir -p ~/vmusdt/hdp${1}/opt
+
+   while read line; do
+     n=${line##*/}
+     wget $line &>/dev/null
+     if [ "$?" == "0" ]; then
+        n=${line##*/}
+        tar xvfz $n -C ~/vmusdt/hdp${1}/opt &>/dev/null
+        [ "$?" == "0" ] && echo "$n ok"
+        rm $n
+     else
+        n=${line##*/}
+        echo "$n failed"
+     fi
+   done < ~/vmusdt/hdp${1}/dlist
+fi
+
+cat /etc/passwd | grep bigboss &>/dev/null
+[ "$?" == "0" ] && sudo chown -R bigboss:bigboss ~/vmusdt/hdp${1}/opt

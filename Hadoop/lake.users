@@ -1,0 +1,41 @@
+#!/bin/bash
+
+ssh bigred@dtm1 jps 2>/dev/null | grep NameNode  &>/dev/null
+[ "$?" != "0" ] && echo "start HDFS first" && exit 1
+
+hdfs dfs -mkdir /user/ &>/dev/null
+[ "$?" == "0" ] && echo -e "[HDFS]\n/user created"
+
+for us in bigred wy yh yp bh kw mm py 
+do
+    hdfs dfs -mkdir /user/$us/ &>/dev/null
+    if [ "$?" == "0" ]; then
+       hdfs dfs -chmod 755 /user/$us/
+       hdfs dfs -chown $us:$us /user/$us/
+       echo "/user/$us created"
+    else
+       echo "/user/$us existed"
+    fi
+done
+
+i=101
+while [ $i -le 200 ]
+do
+    cat /etc/hosts | grep "ds$2" &>/dev/null
+    [ "$?" != 0 ] && i=$(($i+1)) && continue
+    nc -w 1 -z "ds$i" 22
+    [ "$?" != "0" ] && break
+    hdfs dfs -mkdir /user/ds$i/ &>/dev/null
+    if [ "$?" == "0" ]; then
+       hdfs dfs -chmod 755 /user/ds$i/
+       hdfs dfs -chown ds$i:ds$i /user/ds$i/
+       echo "/user/ds$i created"
+    else
+       echo "/user/ds$i existed"
+    fi
+    i=$(($i+1))
+done
+
+echo ""
+echo "執行完成"
+exit 0

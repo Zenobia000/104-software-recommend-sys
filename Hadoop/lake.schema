@@ -1,0 +1,34 @@
+#!/bin/bash
+owner=bigred
+group=bigboss
+
+ssh bigred@dtm1 jps 2>/dev/null | grep NameNode &>/dev/null
+[ "$?" != "0" ] && echo "start HDFS first" && exit 1
+
+lakeschema="/raw/ /elt/ /dataset/ /apps/ /metadata/"
+
+for dn in $lakeschema
+do
+   hdfs dfs -ls $dn &>/dev/null
+   if [ "$?" != "0" ]; then
+       hdfs dfs -mkdir $dn
+       hdfs dfs -chown $owner:$group $dn
+       hdfs dfs -chmod 755 $dn
+       echo "$dn ($owner:$group,755)"
+   else
+       echo "$dn existed"
+   fi
+done
+
+hdfs dfs -ls /tmp/hadoop-yarn &>/dev/null
+[ "$?" != "0" ] && hdfs dfs -mkdir -p /tmp/hadoop-yarn/staging && echo "/tmp/hadoop-yarn/staging created (YARN)"
+hdfs dfs -ls /tmp/hive &>/dev/null
+[ "$?" != "0" ] && hdfs dfs -mkdir /tmp/hive/ && echo "/tmp/hive created (Jupyter)"
+hdfs dfs -ls /tmp/spark-events &>/dev/null
+[ "$?" != "0" ] && hdfs dfs -mkdir /tmp/spark-events/ && echo "/tmp/spark-events created (Spark)"
+
+hdfs dfs -chmod -R 777 /tmp/ && echo "/tmp (777)"
+
+echo ""
+echo "執行完成"
+exit 0

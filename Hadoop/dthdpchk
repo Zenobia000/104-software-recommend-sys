@@ -1,0 +1,16 @@
+#!/bin/bash
+
+m="dta1 dta2 dta3 dtm1 dtm2 dtm3 dtm4"
+w="dtw1 dtw2 dtw3 dtw4 dtw5 dtw6 dtw7"
+
+for n in $m $w
+do
+   nc -w 1 -z $n 22 &>/dev/null
+   if [ "$?" == "0" ]; then
+      echo "[$n]"
+      ssh $n 'hadoop version | head -n 1'
+      ssh $n 'hadoop checknative'
+
+      echo ""
+   fi
+done

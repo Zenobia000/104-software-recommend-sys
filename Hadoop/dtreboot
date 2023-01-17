@@ -1,0 +1,11 @@
+#!/bin/bash
+
+m="dta2 dta3 dtm1 dtm2 dtm3 dtm4"
+w="dtw1 dtw2 dtw3 dtw4 dtw5 dtw6 dtw7"
+
+for n in $m $w
+do
+   nc -w 2 -z $n 22 &>/dev/null
+   [ "$?" == "0" ] && ssh $n sudo reboot
+   sleep 6
+done

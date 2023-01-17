@@ -1,0 +1,18 @@
+#!/bin/bash
+
+w="dta1 dta2 dta3 dtm1 dtm2 dtm3 dtm4 dtw1 dtw2 dtw3 dtw4 dtw5 dtw6 dtw7"
+
+[ "$#" != 1 ] && echo "dthacopy version" && exit 1
+
+[ ! -d ~/vmusdt/hdp${1}/ha/ ] && echo "~/vmusdt/hdp${1}/ha not found" && exit 1
+
+for x in $w
+do
+   nc -w 1 -z $x 22 &>/dev/null
+   [ "$?" != "0" ] && continue
+
+   scp -r ~/vmusdt/hdp${1}/ha/* bigred@$x:/opt/hadoop-3.3.4/etc/hadoop/ &>/dev/null
+   [ "$?" == "0" ] && echo "$x /opt/hadoop-3.3.4/etc/hadoop (core-site.xml,hdfs-site.xml,yarn-site.xml) ok"
+
+   echo ""
+done

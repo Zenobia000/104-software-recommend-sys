@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for n in dtw1 dtw2 dtw3 dtw4 dtw5 dtw6 dtw7
+do
+  ssh $n 'nohup jpslog.sh &>/dev/null &'
+done

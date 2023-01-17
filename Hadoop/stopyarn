@@ -1,0 +1,24 @@
+#!/bin/bash
+
+nn="dtm1"
+rs="dtm2"
+yn=7
+w=$(cat /etc/hosts | grep -e ' dtw[0-9]' | cut -d' ' -f2)
+
+#n=$(hostname)
+#[ ${n:0:3} != "adm" ] && echo "oops, pls return to admxxx" && exit 1
+
+c=0
+for n in $w
+do
+   if [ "$c" -le "$yn" ]; then
+      ssh bigred@$n yarn-daemon.sh stop nodemanager &>/dev/null
+      [ "$?" == "0" ] && echo "$n: Node Manager stoped"
+      c=$(( c+1 ))
+   fi
+done
+
+ssh bigred@"$rs" mr-jobhistory-daemon.sh stop historyserver &>/dev/null
+[ "$?" == "0" ] && echo "$rs: Job History Server stoped"
+ssh bigred@"$rs" yarn-daemon.sh stop resourcemanager &>/dev/null
+[ "$?" == "0" ] && echo "$rs: Resource Manager stoped"

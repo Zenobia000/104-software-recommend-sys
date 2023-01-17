@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd ~/package/
+while read line; do
+  if [ -d ~/package/ ]; then
+    n=${line##*/}
+    tar xvfz $n -C ~/vmusdt/hdp${1}/opt &>/dev/null
+    [ "$?" == "0" ] && echo "$n ok"
+  else
+    n=${line##*/}
+    echo "$n failed"
+  fi
+done < ~/vmusdt/hdp${1}/dlist
+
+sudo chown -R bigboss:bigboss ~/vmusdt/hdp${1}/opt

@@ -1,0 +1,54 @@
+#!/bin/bash
+
+
+
+
+
+#-----------------------------------------------------------------------------------
+w=$(cat /etc/hosts | grep -e ' dtw[0-9]' | cut -d' ' -f2)
+
+
+for n in $w
+do
+    ssh $n jps | grep 'NodeManager' &>/dev/null
+    [ "$?" == "0" ] && stopyarn
+
+done
+
+ssh dtm2 jps | grep 'JobHistoryServer' &>/dev/null
+[ "$?" == "0" ] && stopyarn && echo "dtm2 History Server stopped"    
+
+ssh dtm2 jps | grep 'ResourceManager' &>/dev/null
+[ "$?" == "0" ] && stopyarn && echo "dtm2 Resource Manager stopped"
+
+
+
+for n in $w
+do
+    ssh $n jps | grep 'DataNode' &>/dev/null
+    [ "$?" == "0" ] && stophdfs && echo "$n: DataNode stopped" 
+done
+
+ssh dtm1 jps | grep 'SecondaryNameNode' &>/dev/null
+[ "$?" == "0" ] && stopyarn && echo "dtm1 Secondary NameNode stopped"
+
+ssh dtm1 jps | grep 'NameNode' &>/dev/null
+[ "$?" == "0" ] && stopyarn && echo "dtm1 NameNode stopped"
+
+
+
+lst_dtw=$(cat /etc/hosts | grep -e 'dtw[0-9]' | cut -d' ' -f2 )
+lst_dtm=$(cat /etc/hosts | grep -e 'dtm[0-9]' | cut -d' ' -f2 )
+lst_dta=$(cat /etc/hosts | grep -e 'dta[2-9]' | cut -d' ' -f2 )
+
+for n in $lst_dtw $lst_dtm $lst_dta
+do
+    ssh $n sudo poweroff &>/dev/null
+    echo "$n poweroff"
+done
+
+
+
+
+
+
