@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh_TW">
+{% include "share/head.html" %}
+
+<body>
+	{% include "share/menu.html" %}
+
+	<!-- Start Banner Area -->
+	<section class="banner-area pt-40 pb-20">
+		<div class="d-table">
+			<div class="d-table-cell">
+				<!-- <div class="container-fluid"> -->
+				<div class="container">
+					<div class="row align-items-center">
+
+						<div class="col-lg-7">
+							<div class="banner-content">
+								<h1 class="propaganda">
+									<div>找到你的職業</div>
+									<div style="float: right;">讓生活更美好</div>
+								</h1>
+
+								{% include "share/search.html" %}
+							</div>
+						</div>
+
+						<div class="col-lg-5">
+							<div class="banner-img">
+								<img src="/static/images/home-img.png" alt="Image">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+	<section class="banner-area" style="background-color: #f3f2f0; height: 18.25rem;">
+		<div class="container" style="height: 18.25rem;">
+			<div style="display: flex; height: 18.25rem;">
+				<div class="col-lg-4 fast-div fast-til-div section-title">
+					<h2>工作快找</h2>
+					<p>依關鍵字搜尋工作</p>
+				</div>
+				<form class="search-job" action="job-search" method="post" id="searchBtn">
+					<input type="hidden" value="" name="condition" id="condition" />
+				</form>
+				<div class="col-lg-8 fast-div fast-btn-div">
+					<div>
+						<button class="fast-btn" value="exp" onclick="selWBtn()">新鮮人</button>
+						<button class="fast-btn" value="manage" onclick="selWBtn()">主管職</button>
+						<button class="fast-btn" value="salary" onclick="selWBtn()">5萬以上</button>
+						<button class="fast-btn" value="foreign" onclick="selWBtn()">外商</button>
+						<button class="fast-btn" value="exp" onclick="selWBtn()">無經驗可</button>
+						<button class="fast-btn" value="change" onclick="selWBtn()">轉職</button>
+						<button class="fast-btn" value="science" onclick="selWBtn()">理工科</button>
+						<!-- <button class="fast-btn" value="exp" onclick="selWBtn()">上班族</button>
+						<button class="fast-btn" value="exp" onclick="selWBtn()">年後上班</button>
+						<button class="fast-btn" value="exp" onclick="selWBtn()">年假特多</button> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="hot-jobs-area bg-color pb-70">
+		<div class="container">
+			<div class="section-title title-sec">
+				<h2>職場風向球</h2>
+			</div>
+			<div style="display: flex;">
+
+				<div class="col-lg-7">
+					<div class="row">
+						<div style="width: 100%;">
+							<img src="/static/images/stat1.png" style="width: 100%; border-radius: 30px;" alt="Image">
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-5 wind-div mod-div"
+					style="display: flex;flex-direction: column;justify-content: space-between;">
+					<div class="hot-jobs-list">
+						<div class="row align-items-center">
+							<div class="col-lg-3">
+								<a href="stat#viz1673092293296" class="hot-jobs-img">
+									<img src="/static/images/tai.png" alt="Image">
+								</a>
+							</div>
+
+							<div class="col-lg-9">
+								<div class="hot-jobs-content">
+									<h3><a href="stat">
+											各類別薪資狀況</a></h3>
+									<span class="sub-title">想查看各縣市平均薪資嗎?</span>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="hot-jobs-list">
+						<div class="row align-items-center">
+							<div class="col-lg-3">
+								<a href="stat#viz1673092417215" class="hot-jobs-img">
+									<img src="/static/images/mon.png" alt="Image">
+								</a>
+							</div>
+
+							<div class="col-lg-9">
+								<div class="hot-jobs-content">
+									<h3><a href="stat#viz1673092417215">
+											各領域薪資與職缺數量狀況
+										</a></h3>
+									<span class="sub-title">想知道哪個領域工作薪資較高，機會也多嗎?</span>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="hot-jobs-list">
+						<div class="row align-items-center">
+							<div class="col-lg-3">
+								<a href="model" class="hot-jobs-img">
+									<img src="/static/images/mod.png" alt="Image">
+								</a>
+							</div>
+
+							<div class="col-lg-9">
+								<div class="hot-jobs-content">
+									<h3><a href="model">
+											領域詞頻分析
+										</a></h3>
+									<span class="sub-title">想了解各領域關鍵字重要排行嗎?</span>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	<!-- Start Hot Jobs Area -->
+	<section class="hot-jobs-area bg-color pb-70">
+		<div class="container">
+			<div class="section-title title-sec">
+				<h2>工作推薦</h2>
+			</div>
+			<div style="display: flex;">
+				<div class="col-lg-6">
+					{% for rec in recommend[0::2] %}
+					<form action="job-detail" method="post" id="{{rec['id']}}">
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-3">
+									<a href="javascript:void(0)" class="hot-jobs-img">
+										{% if rec['job_categories'] == '軟體_工程類人員' %}
+										<img src="/static/images/soft-img.png" alt="Image">
+										{% endif %}
+										{% if rec['job_categories'] == 'MIS_網管類人員' %}
+										<img src="/static/images/mis-img.png" alt="Image">
+										{% endif %}
+									</a>
+								</div>
+
+								<div class="col-lg-5">
+									<div class="hot-jobs-content">
+										<h3><a href="javascript:void(0)">
+												{{rec['job_title']}}
+											</a></h3>
+										<span class="sub-title">{{rec['company_name']}}</span>
+										<ul>
+											<li><span>學歷:</span> {{rec['academic_requirements']}}</li>
+											<li><span>經歷: </span>{{rec['work_experience']}}</li>
+											<li><span>地點: </span>{{rec['county']}}{{rec['area']}}</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<button type="button" class="default-btn"
+											onclick="getDetail({{ rec['id'] }})">詳細資訊</button>
+										<input type="hidden" value="{{rec}}" name="jobdt" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					{% endfor %}
+
+				</div>
+				<div class="col-lg-6">
+					{% for rec in recommend[1::2] %}
+					<form action="job-detail" method="post" id="{{rec['id']}}">
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-3">
+									<a href="javascript:void(0)" class="hot-jobs-img">
+										{% if rec['job_categories'] == '軟體_工程類人員' %}
+										<img src="/static/images/soft-img.png" alt="Image">
+										{% endif %}
+										{% if rec['job_categories'] == 'MIS_網管類人員' %}
+										<img src="/static/images/mis-img.png" alt="Image">
+										{% endif %}
+									</a>
+								</div>
+
+								<div class="col-lg-5">
+									<div class="hot-jobs-content">
+										<h3><a href="javascript:void(0)">
+												{{rec['job_title']}}
+											</a></h3>
+										<span class="sub-title">{{rec['company_name']}}</span>
+										<ul>
+											<li><span>學歷:</span> {{rec['academic_requirements']}}</li>
+											<li><span>經歷: </span>{{rec['work_experience']}}</li>
+											<li><span>地點: </span>{{rec['county']}}{{rec['area']}}</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<button type="button" class="default-btn"
+											onclick="getDetail({{ rec['id'] }})">詳細資訊</button>
+										<input type="hidden" value="{{rec}}" name="jobdt" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					{% endfor %}
+				</div>
+
+			</div>
+		</div>
+	</section>
+	<!-- End Hot Jobs Area -->
+
+	{% include "share/footer.html" %}
+
+	<!--js-->
+	{% include "share/import-js.html" %}
+
+	<script src="/static/js/menu.js"></script>
+	<script type="text/javascript">
+		function getDetail(datadetail) {
+			let id = datadetail;
+			$("#" + id).submit();
+		}
+
+		$('button.fast-btn').on('click', function (e) {
+			//     $("#jobdt").val(JSON.stringify(datadt));
+			console.log($(this).val())
+			$("#condition").val($(this).val());
+			$("#searchBtn").submit();
+		});
+	</script>
+
+	<div id="mouseposition-extension-element-full-container"
+		style="position: fixed; inset: 0px; pointer-events: none; z-index: 2147483647; font-weight: 400;">
+		<div id="mouseposition-extension-element-rect-display"
+			style="display: none; position: absolute; background: rgba(255, 255, 255, 0.7); outline: black solid 1px; font-size: 12px; z-index: 2147483647; justify-content: center; align-items: center; user-select: none; cursor: default; color: rgb(0, 0, 0); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; width: 0px; height: 0px;">
+			<pre
+				style="flex: 1 1 0%; text-align: center; background-color: rgba(255, 255, 255, 0.7); color: rgb(0, 0, 0); min-width: 42px; min-height: 12px; transition: all 1s ease 0s;"></pre>
+		</div>
+		<pre id="mouseposition-extension-element-coordinate-display"
+			style="position: absolute; display: none; background: rgb(255, 255, 255); font-size: 12px; line-height: 14px; border-radius: 3px; border-width: 1px; border-color: rgb(34, 34, 34) black rgb(51, 51, 51); border-style: solid; padding: 3px; z-index: 2147483647; color: rgb(34, 34, 34); user-select: none; cursor: default; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;"></pre>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+<div id="skill-block" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button data-dismiss="modal" id="skcls" class="close">&times;</button>
+                <h4>
+                    工作技能
+                </h4>
+                <form id="skb" method="post" action="">
+                    <div class="skb-div">
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="Python">
+                            <span>Python</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="C">
+                            <span>C</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="C++">
+                            <span>C++</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="Java">
+                            <span>Java</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="C#">
+                            <span>C#</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="Visual Basic">
+                            <span>Visual Basic</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="JavaScript">
+                            <span>JavaScript</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="SQL">
+                            <span>SQL</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="Assembly language">
+                            <span>Assembly language</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="PHP">
+                            <span>PHP</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="Swift">
+                            <span>Swift</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="Go">
+                            <span>Go</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="R">
+                            <span>R</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="Hadoop">
+                            <span>Hadoop</span>
+                        </span>
+                        <span class="col-lg-3">
+                            <input type="checkbox" name="skckb" value="Tableau">
+                            <span>Tableau</span>
+                        </span>
+
+                    </div>
+                    <div>
+                        <input class="btn login" type="button" value="確定" onclick="sklcls()" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<ul class="nav nav-tabs" id="searchTab">
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#jobsearch">找工作</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#cpsearch">找公司</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div id="jobsearch" class="tab-pane show active" role="tabpanel" aria-labelledby="job-tab">
+        <form class="search-job" action="job-search" method="post" id="searchform">
+            <input type="hidden" value="job" name="find" />
+            <div class="row">
+                <div class="col-lg-4 col-sm-6">
+                    <div class="form-group">
+                        <select class="county form-control" id="county" name="county"></select>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-6">
+                    <div class="form-group">
+                        <select class="district form-control" id="district" name="district"></select>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-6">
+                    <div class="form-group">
+                        <select class="form-control tm-select" id="salary" name="salary">
+                            <option value="" selected>薪資</option>
+                            <option value="">不限</option>
+                            <option value="3">3萬以下</option>
+                            <option value="4">3~5萬</option>
+                            <option value="5">5~8萬</option>
+                            <option value="6">8~10萬</option>
+                            <option value="7">10萬以上</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="more-sh" style="display: none;">
+                <!--職位-->
+                <div class="row">
+                    <!--職位類別-->
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="form-group">
+                            <!-- <label for="jobCategories">職位類別</label> -->
+                            <select name="jobCategories" class="form-control" id="jobCategories">
+                                <option value="" selected>職位類別</option>
+                                <option value="軟體_工程類人員">軟體_工程類人員</option>
+                                <option value="MIS_網管類人員">MIS_網管類人員</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--職位-->
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="form-group">
+                            <!-- <label for="position">職位</label> -->
+                            <select name="position" class="form-control" id="position">
+                                <option value="" selected>職位</option>
+                                {% for pos in df['pos'] %}
+                                <option value="{{pos}}">{{pos}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <!--公司評分-->
+                    <!-- <div class="col-lg-4 col-sm-6">
+                        <div class="form-group div-cpscore">
+                            <span class="cpscore">公司評分</span>
+                            <ul id="score" class="star">
+                                <li>☆</li>
+                                <li>☆</li>
+                                <li>☆</li>
+                                <li>☆</li>
+                                <li>☆</li>
+                                <img id="rStar" class="img-star" src="/static/images/re.png" onclick="star_reset()">
+                            </ul>
+                        </div>
+                    </div> -->
+                    <!--經歷-->
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="form-group">
+                            <!-- <label for="exp">經歷</label> -->
+                            <select name="exp" class="form-control" id="exp">
+                                <option value="" selected>經歷</option>
+                                <option value="0-1">0-1年</option>
+                                <option value="1-3">1-3年</option>
+                                <option value="3-5">3-5年</option>
+                                <option value="5-10">5-10年</option>
+                                <option value="10">10年以上</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!--學經歷-->
+                <div class="row">
+                    <!--學歷-->
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="form-group">
+                            <!-- <label for="skillTwo">學歷</label> -->
+                            <select name="edu" class="form-control" id="edu">
+                                <option value="" selected>學歷</option>
+                                <option value="高中">高中</option>
+                                <option value="專科">專科</option>
+                                <option value="大學">大學</option>
+                                <option value="碩士">碩士</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--科系-->
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="form-group">
+                            <!-- <label for="dep">科系</label> -->
+                            <select name="dep" class="form-control" id="dep">
+                                <option value="" selected>科系</option>
+                                {% for item in df['dep'] %}
+                                <option value="{{item}}">{{item}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <!-- <a href="#"><i class="bx bx-wrench"></i>工作技能</a> -->
+                        <button type="button" class="default-btn skill-btn" data-target="#skill-block"
+                            data-toggle="modal"><i class="bx bx-wrench"></i>工作技能</button>
+                        <input type="hidden" id="tools" name="tools" value="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="justify-content: end;">
+                <div class=" col-lg-3 col-sm-6 offset-sm-3 offset-lg-0">
+                    <button type="button" class="default-btn" id="btnSubmit" onclick="goSearch()">
+                        <i class="bx bx-search"></i>
+                        找工作
+                    </button>
+                    <span class="more-btn" onclick="ck_more()">顯示較多</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="cpsearch" class="tab-pane fade" role="tabpanel" aria-labelledby="job-tab">
+        <form class="search-job" action="job-search" method="post" id="searchform2">
+            <input type="hidden" value="com" name="find" />
+            <div class="row">
+                <div class="col-lg-12 col-sm-6">
+                    <div class="form-group" style="display: flex;justify-content: space-between;">
+                        <input type="text" class="form-control" id="companyName" name="companyName" style="width: 70%;"
+                            placeholder="請輸入公司名稱" />
+                        <button type="button" class="default-btn" id="btnSubmit" style="width: 20%;margin-top: 1rem;"
+                            onclick="getCompany()">
+                            <i class=" bx bx-search"></i>
+                            找公司
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

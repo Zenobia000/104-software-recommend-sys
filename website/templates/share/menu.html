@@ -1,0 +1,261 @@
+<script type="text/javascript">
+    function login() {
+        console.log($("#loginF").valid());
+        var val = $("#loginF").valid();
+        if (!val) {
+            return;
+        }
+        else {
+            console.log("submit");
+            $("#loginF").submit();
+            // $("#logincls").click();
+        }
+    }
+    function cls() {
+        $("#logoutcls").click();
+    }
+    function sklcls() {
+        $("#skcls").click();
+    }
+    function logout() {
+        $("#logoutF").submit();
+    }
+</script>
+
+<!--登入-->
+<div id="login" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-body">
+                <button data-dismiss="modal" id="logincls" class="close">&times;</button>
+                <h4>
+                    <!-- <img src="/static/images/giphy-unscreen.gif" style="max-height: 90px;" /> -->
+                    登入
+                    <!-- <img src="/static/images/test.gif" /> -->
+                </h4>
+                <form id="loginF" method="post" action="{{url_for('login')}}">
+                    <input type="text" name="username" id="username" class="username form-control"
+                        placeholder="Username" required />
+                    <input type="password" name="password" id="pwd" class="password form-control" placeholder="Password"
+                        required />
+                    <input class="btn login" type="button" value="Login" onclick="login()" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--登出-->
+<div id="logout" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-body">
+                <button data-dismiss="modal" id="logoutcls" class="close">&times;</button>
+                <h4>是否確定登出</h4>
+                <form id="logoutF" method="post" action="{{url_for('logout')}}">
+                    <input class="btn cancel" type="button" value="取消" onclick="cls()" />
+                    <input class="btn login" type="button" value="確定" onclick="logout()" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Start Preloader Area -->
+<div class="preloader preloader-deactivate">
+    <div class="lds-ripple">
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<!-- End Preloader Area -->
+
+<!-- Start Header Area -->
+<header class="header-area">
+    <!-- Start Top Header -->
+    <div class="top-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <!-- <ul class="header-left-content">
+                        <li>
+                            <span>Hot Line</span>
+                            <a href="tel:+1-(514)-312-5678">+1 (514) 312-5678</a>
+                        </li>
+                    </ul> -->
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="header-right-content">
+                        <ul class="language">
+                            <li>
+                                <div class="dropdown language-btn">
+                                    <!-- <button class="dropdown-toggle" type="button" data-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <span>
+                                            Language
+                                            <i class="bx bx-chevron-down"></i>
+                                        </span>
+                                    </button>
+
+                                    <div class="dropdown-menu" style="">
+                                        <a href="https://templates.envytheme.com/jubi/default/index.html#"
+                                            class="dropdown-item">
+                                            <img src="/static/images/english.png" alt="Flag">
+                                            <span>English</span>
+                                        </a>
+                                    </div> -->
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul id="login-btn" class="log-in" style="display: none;">
+                            <li>
+                                <a href="javascript:void(0)" data-target="#login" data-toggle="modal">
+                                    <i class="bx bxs-lock"></i>
+                                    登入
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <i class="bx bxs-user"></i>
+                                    註冊
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul id="logout-btn" class="log-in" style="display: none;">
+                            <li>
+                                <a href="javascript:void(0)" data-target="#logout" data-toggle="modal">
+                                    <i class="bx bxs-group"></i>
+                                    您好，{{uname}}!
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" data-target="#logout" data-toggle="modal">
+                                    <i class="bx bxs-lock-open"></i>
+                                    登出
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Start Top Header -->
+
+    <!-- Start Navbar Area -->
+    <div class="navbar-area">
+        <div class="mobile-nav">
+            <div class="container">
+                <div class="mobile-menu">
+                    <div class="logo">
+                        <a href="index">
+                            <img src="/static/images/logo9.png" style="width: 150px;" alt="logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="desktop-nav">
+            <div class="container">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <a class="navbar-brand" href="index">
+                        <img src="/static/images/logo9.png" style="width: 150px;" alt="logo">
+                    </a>
+
+                    <div class="collapse navbar-collapse mean-menu" style="display: block;">
+                        <ul class="navbar-nav meun-list">
+                            <li class="nav-item">
+                                <a href="index" class="nav-link">
+                                    首頁
+                                    <i class="bx bx-home" style="width: 20px;"></i>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    關於
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">專案起源</a>
+                                    </li>
+                                    <!-- <li class="nav-item">
+                                        <a href="#" class="nav-link">網頁介紹</a>
+                                    </li> -->
+                                    <li class="nav-item">
+                                        <a href="team" class="nav-link">團隊介紹</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    職場洞見
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="stat" class="nav-link">統計分析</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="model" class="nav-link">模型分析</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+
+                        <!-- <div class="others-option">
+                            <div class="get-quote">
+                                <a href="https://templates.envytheme.com/jubi/default/post-job.html"
+                                    class="default-btn">
+                                    Post a Job
+                                </a>
+                            </div>
+                        </div> -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <!-- <div class="others-option-for-responsive">
+            <div class="container">
+                <div class="dot-menu">
+                    <div class="inner">
+                        <div class="circle circle-one"></div>
+                        <div class="circle circle-two"></div>
+                        <div class="circle circle-three"></div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="option-inner">
+                        <div class="others-option justify-content-center d-flex align-items-center">
+                            <div class="get-quote">
+                                <a href="https://templates.envytheme.com/jubi/default/post-job.html"
+                                    class="default-btn">
+                                    Post a Job
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div style="display: none;">
+        <input type="hidden" id="un" value="{{uname}}">
+    </div>
+    <!-- End Navbar Area -->
+</header>
+<!-- End Header Area -->

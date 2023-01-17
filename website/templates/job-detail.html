@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh_TW">
+{% include "share/head.html" %}
+
+<body>
+    {% include "share/menu.html" %}
+    <section class="hot-jobs-area bg-color pb-40">
+        <div class="container">
+            <div class="section-title title-sec">
+                <h2>詳細資訊</h2>
+            </div>
+
+            <div class="hot-jobs-list">
+                <div class="row align-items-center">
+                    <div class="col-lg-2" style="text-align: center;">
+                        <a href="{{jobdt.job_link}}" class="hot-jobs-img" target="_blank">
+                            {% if jobdt.job_categories == '軟體_工程類人員' %}
+                            <img src="/static/images/soft-img.png" alt="Image">
+                            {% endif %}
+                            {% if jobdt.job_categories == 'MIS_網管類人員' %}
+                            <img src="/static/images/mis-img.png" alt="Image">
+                            {% endif %}
+                        </a>
+                    </div>
+
+                    <div class="col-lg-10">
+                        <div class="hot-jobs-content">
+                            <div>
+                                <h3>
+                                    <a href="{{jobdt.job_link}}" id="cpname" target="_blank">{{jobdt.company_name}}</a>
+                                    <!-- <span class="tb-star">★★★</span> -->
+                                </h3>
+                            </div>
+                            <div>
+                                <h3>
+                                    <!-- <label>職缺資訊</label> -->
+                                    <hr style="margin: 0;">
+                                </h3>
+
+                                <div class="pb-20 fz-20">
+                                    <h3><span class="vacancies" id="jcategory">{{jobdt.job_title}}</span><span
+                                            style="margin-left: 20px;">{{jobdt.position}}</span></h3>
+                                </div>
+                                <div class="pb-20 d-flex">
+                                    <div class="col-lg-6 dtxt">
+                                        <label for="salary"><i class="bx bxs-dollar-circle"></i>&nbsp;工作薪資</label>
+                                        <p class="txt" id="salary">{{jobdt.conditions}}</p>
+                                    </div>
+
+                                    <div class="col-lg-6 dtxt">
+                                        <label for="jbc"><i class="bx bxs-map"></i>&nbsp;工作地區</label>
+                                        <p class="txt" id="jbc">
+                                            {{jobdt.work_place}}
+                                        </p>
+                                    </div>
+
+                                    <div class="col-lg-6 dtxt">
+                                        <label for="workhour"><i class="bx bxs-time"></i>&nbsp;上班時段</label>
+                                        <p class="txt" id="workhour">{{jobdt.working_hours}}</p>
+                                    </div>
+
+                                    <div class="col-lg-6 dtxt">
+                                        <label for="mag"><img class="bx"
+                                                src="/static/images/cog.png" />&nbsp;管理責任</label>
+                                        <p class="txt" id="mag">{{jobdt.responsibility}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: center; min-width: 100%;">
+                        <div class="hot-jobs-btn" style="margin: 10px;">
+                            <!-- <button type="button" class="default-btn job-btn" value="" id="compete" name="compete"
+                                onclick="copmetesec()">競爭者分析</button> -->
+                        </div>
+                        <div class="hot-jobs-btn" style="margin: 10px;">
+                            <a href="{{jobdt.job_link}}" class="default-btn" target="_blank">
+                                我要應徵
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section class="freelancer-area pt-20 pb-70 bg-color">
+        <div class="container">
+            <div class="hot-jobs-list">
+                <ul class="nav nav-tabs" id="detailTab">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#stat">薪資分析</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#msg">留言</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="row align-items-center tab-pane active" id="stat" role="tabpanel"
+                        aria-labelledby="job-tab">
+                        {% if jobdt.job_categories == '軟體_工程類人員' %}
+                        <img src="/static/images/soft.svg" alt="Image" style="min-width: 100%;">
+                        {% endif %}
+                        {% if jobdt.job_categories == 'MIS_網管類人員' %}
+                        <img src="/static/images/mis.png" alt="Image" style="min-width: 100%;">
+                        {% endif %}
+                    </div>
+                    <div class="row align-items-center tab-pane fade" id="msg" role="tabpanel"
+                        aria-labelledby="job-tab">
+                        <form id="myform" method="" action="" enctype="multipart/form-data">
+                            <div id="msgdiv">
+
+                            </div>
+                            <div class="pt-20"
+                                style="display: flex; flex-direction: column; flex-wrap: nowrap; align-items: center;">
+                                <div class="col-lg-6">
+                                    <textarea style="width: 100%;" rows="10" name="msgcontent" id="msgcontent"
+                                        maxlength="300" placeholder="請輸入留言內容"></textarea>
+                                </div>
+                                <div class="col-lg-6" style="display: flex; justify-content: flex-end;">
+                                    <button type="button" class="default-btn" onclick="message()">提交</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="com-sec" class="hot-jobs-area bg-color pb-40" style="display: none;">
+        <div class="container">
+            <div class="hot-jobs-list">
+                <div class="row">
+                    <div class="col-lg-2 pt-40">
+                        <h3>競爭者分析</h3>
+                    </div>
+
+                    <div class="col-lg-10 d-flex">
+                        <div class="col-lg-6 d-com-i">
+                            <label for="imgedu">學歷分佈</label>
+                            <img id="imgedu" src="/static/images/compete-img.svg" />
+                        </div>
+                        <div class="col-lg-6 d-com-i">
+                            <label for="imgdep">科系分佈</label>
+                            <img id="imgdep" src="/static/images/compete-img.svg" />
+                        </div>
+
+                        <div class="col-lg-6 d-com-i">
+                            <label for="imggender">性別分佈</label>
+                            <img id="imggender" src="/static/images/compete-img.svg" />
+                        </div>
+                        <div class="col-lg-6 d-com-i">
+                            <label for="imgage">年齡分佈</label>
+                            <img id="imgage" src="/static/images/compete-img.svg" />
+                        </div>
+
+                        <div class="col-lg-6 d-com-i">
+                            <label for="imgexp">工作經驗分佈</label>
+                            <img id="imgexp" src="/static/images/compete-img.svg" />
+                        </div>
+                        <div class="col-lg-6 d-com-i">
+                            <label for="imglang">語言能力分佈</label>
+                            <img id="imglang" src="/static/images/compete-img.svg" />
+                        </div>
+
+                        <div class="col-lg-6 d-com-i">
+                            <label for="imgskill">技能分佈</label>
+                            <img id="imgskill" src="/static/images/compete-img.svg" />
+                        </div>
+                        <div class="col-lg-6 d-com-i">
+                            <label for="imglic">證照分佈</label>
+                            <img id="imglic" src="/static/images/compete-img.svg" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    {% include "share/footer.html" %}
+
+    {% include "share/import-js.html" %}
+
+    <script>
+        $(document).ready(function () {
+            var triggerTabList = [].slice.call(document.querySelectorAll('#detailTab a'))
+            triggerTabList.forEach(function (triggerEl) {
+                var tabTrigger = new bootstrap.Tab(triggerEl)
+
+                triggerEl.addEventListener('click', function (event) {
+                    event.preventDefault()
+                    tabTrigger.show()
+                })
+            })
+        });
+
+        function copmetesec() {
+            if ($('#com-sec').css('display') == 'none') {
+                $("#com-sec").show();
+                $('html, body').animate({
+                    scrollTop: $("#com-sec").offset().top
+                }, 1000);
+            }
+            else {
+                $("#com-sec").hide();
+            }
+        }
+
+        function message() {
+            var msg = $("#msgcontent").val();
+            $("#msgdiv").append("<p>" + msg + "</p>");
+            $("#msgdiv").append("<hr>");
+            $("#msgcontent").val("");
+        }
+    </script>
+</body>
+
+</html>
